@@ -60,8 +60,8 @@ export class AesGcmEncryptor implements Encryptor {
     };
   }
 
-  decrypt(ciphertext: Value | undefined): Value | undefined {
-    if (!ciphertext?.data) return ciphertext;
+  decrypt(ciphertext: Value): Value {
+    if (!ciphertext.data) return ciphertext;
     if (ciphertext.headers?.["x-encrypted"] !== "true") return ciphertext;
 
     const packed = Buffer.from(ciphertext.data, "base64");
