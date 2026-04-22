@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/banner.png" alt="Encryption — Resonate example" />
+</p>
+
 # Encryption Middleware
 
 AES-256-GCM encryption for Resonate promise payloads. Sensitive data — credit cards, SSNs, financial amounts — is encrypted at rest in the promise store. Your workflow code is unchanged.
