@@ -130,28 +130,12 @@ example-encryption-ts/
 
 **Lines of code**: ~195 total, ~50 lines of encryptor implementation.
 
-## Comparison
+## The Encryptor interface
 
-Temporal's `encryption` example requires 7 source files (~249 LOC), 12 runtime dependencies, a `PayloadCodec` with protobuf serialization, a `DataConverter` wired into both Client and Worker, and a separate Express "codec server" (~85 LOC) for the Web UI to display decrypted payloads.
+The integration point is a single interface with two methods: `encrypt(data)` and `decrypt(data)`. Implement it in whatever shape your key management and algorithm choice demand, then pass an instance to the `Resonate` constructor. No additional wiring, no separate codec server, no runtime-dependency pile. You own the crypto; Resonate calls the two methods at the payload boundary.
 
-Inngest's middleware-encryption is simpler: `encryptionMiddleware({ key })` — but it's a black box. You can't customize the algorithm or key management.
-
-Resonate: implement one interface (2 methods), pass it to the constructor. You own the crypto.
-
-| | Resonate | Temporal | Inngest |
-|---|---|---|---|
-| Encryptor implementation | 1 class, ~50 LOC | PayloadCodec + DataConverter + protobuf (~105 LOC) | 0 LOC (package) |
-| Additional infrastructure | None | Codec server (~85 LOC Express app) | None |
-| Wiring points | 1 (constructor option) | 2 (Client + Worker) | 1 (middleware) |
-| Algorithm control | Full (you write the crypto) | Full (you write the crypto) | Limited (LibSodium default) |
-| Key rotation | Implement yourself | Implement yourself | Built-in |
-| Runtime dependencies | 1 (`@resonatehq/sdk`) | 12 packages | 2 packages |
-| Workflow code changes | None | None | None |
-
-**Honest trade-off**: Inngest's middleware-encryption is the easiest to use (3 lines, built-in key rotation). Temporal gives you full control but at high complexity cost. Resonate hits the middle: clean interface, you own the implementation, minimal ceremony.
+Key rotation, envelope encryption, KMS integration — all live in your implementation. The README's reference implementation uses AES-256-GCM with a static key; a production implementation would typically add per-payload key derivation and rotation.
 
 ## Learn More
 
 - [Resonate documentation](https://docs.resonatehq.io)
-- [Temporal encryption sample](https://github.com/temporalio/samples-typescript/tree/main/encryption)
-- [Inngest encryption middleware](https://www.inngest.com/docs/features/middleware/encryption-middleware)
