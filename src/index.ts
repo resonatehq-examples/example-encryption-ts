@@ -65,3 +65,5 @@ if (shouldCrash) {
     "\nCharge failed → retried → succeeded. PII never stored in plaintext.",
   );
 }
+
+resonate.stop();
