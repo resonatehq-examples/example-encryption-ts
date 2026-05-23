@@ -6,6 +6,12 @@
   </picture>
 </p>
 
+<p align="center">
+  <a href="https://resonatehq.github.io/examples-ci/">
+    <img src="https://img.shields.io/endpoint?url=https://resonatehq.github.io/examples-ci/status/example-encryption-ts.json" alt="examples-ci status">
+  </a>
+</p>
+
 # Encryption Middleware
 
 AES-256-GCM encryption for Resonate promise payloads. Sensitive data — credit cards, SSNs, financial amounts — is encrypted at rest in the promise store. Your workflow code is unchanged.
